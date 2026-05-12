@@ -62,16 +62,14 @@ PRESETS: dict[str, dict[str, Any]] = {
 def _source_ready(source_name: str, retriever: BaseRetriever) -> bool:
     """Check if a retriever is configured without making network calls."""
     try:
+        import config
         if source_name == "Materials Project":
-            from config import MP_API_KEY
-            return bool(MP_API_KEY)
+            return bool(config.MP_API_KEY)
         if source_name == "BRENDA":
-            from config import BRENDA_EMAIL, BRENDA_PASSWORD
-            return bool(BRENDA_EMAIL and BRENDA_PASSWORD)
+            return bool(config.BRENDA_EMAIL and config.BRENDA_PASSWORD)
         if source_name == "Open Catalyst":
             from pathlib import Path
-            from config import OCP_DATA_DIR
-            data_dir = Path(OCP_DATA_DIR)
+            data_dir = Path(config.OCP_DATA_DIR)
             return any(
                 (data_dir / name).exists()
                 for name in ("oc20_data_mapping.pkl", "oc20_data_mapping.csv")
