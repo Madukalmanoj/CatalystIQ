@@ -1,0 +1,12 @@
+streamlit>=1.35.0
+pydantic>=2.7.0
+SQLAlchemy>=2.0.30
+tenacity>=8.3.0
+loguru>=0.7.2
+mp-api>=0.43.0
+zeep>=4.2.1
+pandas>=2.2.2
+numpy>=1.26.4
+plotly>=5.22.0
+python-dotenv>=1.0.1
+pymatgen>=2024.5.1
