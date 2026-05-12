@@ -207,8 +207,16 @@ def _inject_css() -> None:
 
 @st.cache_resource(show_spinner=False)
 def get_retrievers() -> dict[str, BaseRetriever]:
-    """Build retriever registry used by sidebar source selection."""
-    cache = QueryCache(CACHE_DB_PATH)
+    """Build retriever registry — reads credentials live from st.secrets."""
+    # Read cache path live so it works on Streamlit Cloud
+    try:
+        cache_path = str(st.secrets.get("CACHE_DB_PATH") or "")
+    except Exception:
+        cache_path = ""
+    if not cache_path:
+        cache_path = CACHE_DB_PATH
+
+    cache = QueryCache(cache_path)
     return {
         "Materials Project": MaterialsProjectRetriever(),
         "BRENDA": BrendaRetriever(cache=cache),

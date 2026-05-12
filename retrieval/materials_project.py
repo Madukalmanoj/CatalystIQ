@@ -27,18 +27,18 @@ class MaterialsProjectRetriever(BaseRetriever):
     source_name = "Materials Project"
 
     def __init__(self, api_key: str | None = None) -> None:
-        """Initialize retriever with API key.
-
-        Args:
-            api_key: Optional explicit MP API key override.
-
-        Returns:
-            None.
-
-        Raises:
-            None.
-        """
-        self.api_key = api_key or MP_API_KEY
+        # Read live from st.secrets if no explicit key given
+        if api_key:
+            self.api_key = api_key
+        else:
+            try:
+                import streamlit as st
+                self.api_key = str(st.secrets.get("MP_API_KEY") or "")
+            except Exception:
+                self.api_key = ""
+            if not self.api_key:
+                from config import MP_API_KEY
+                self.api_key = MP_API_KEY
 
     def _parse_elements(self, reaction: str) -> list[str]:
         """Extract probable chemical element symbols from query.

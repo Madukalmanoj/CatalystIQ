@@ -171,9 +171,43 @@ class BrendaRetriever(BaseRetriever):
         password: str | None = None,
         cache: QueryCache | None = None,
     ) -> None:
-        self.email = email or BRENDA_EMAIL
-        self.password = password or BRENDA_PASSWORD
-        self.cache = cache or QueryCache(CACHE_DB_PATH)
+        # Read live from st.secrets if no explicit credentials given
+        if email:
+            self.email = email
+        else:
+            try:
+                import streamlit as st
+                self.email = str(st.secrets.get("BRENDA_EMAIL") or "")
+            except Exception:
+                self.email = ""
+            if not self.email:
+                from config import BRENDA_EMAIL
+                self.email = BRENDA_EMAIL
+
+        if password:
+            self.password = password
+        else:
+            try:
+                import streamlit as st
+                self.password = str(st.secrets.get("BRENDA_PASSWORD") or "")
+            except Exception:
+                self.password = ""
+            if not self.password:
+                from config import BRENDA_PASSWORD
+                self.password = BRENDA_PASSWORD
+
+        if cache:
+            self.cache = cache
+        else:
+            try:
+                import streamlit as st
+                cache_path = str(st.secrets.get("CACHE_DB_PATH") or "")
+            except Exception:
+                cache_path = ""
+            if not cache_path:
+                from config import CACHE_DB_PATH
+                cache_path = CACHE_DB_PATH
+            self.cache = QueryCache(cache_path)
 
     def _hash_password(self) -> str:
         return hashlib.sha256(self.password.encode("utf-8")).hexdigest()
