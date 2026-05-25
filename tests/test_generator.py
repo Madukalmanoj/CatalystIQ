@@ -202,3 +202,5 @@ def test_generate_mixed_sources(mp_df, brenda_df):
     gen = CatalystGenerator(n_candidates=8)
     result = gen.generate("CO2 + H2 -> methanol", combined)
     assert len(result) > 0
+
+GEMINI_API_KEY= Agvsdhsdsgvfsjhbdhasdvasdsa

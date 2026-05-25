@@ -704,3 +704,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    GEMINI_API_KEY= ATYYIhjskjhsjdsdudhdnbb

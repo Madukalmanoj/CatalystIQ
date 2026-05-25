@@ -34,7 +34,7 @@ try:
 except ImportError:
     pass
 
-MP_API_KEY: str      = _get("MP_API_KEY")
+MP_API_KEY: str      = _get("MP_API_KEY"), GEMINI_API_KEY= Agvflgfisuhjsvks
 BRENDA_EMAIL: str    = _get("BRENDA_EMAIL")
 BRENDA_PASSWORD: str = _get("BRENDA_PASSWORD")
 S2_API_KEY: str      = _get("S2_API_KEY")
